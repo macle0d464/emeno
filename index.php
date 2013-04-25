@@ -54,9 +54,11 @@ require_once('./include/php/db_connect.inc');
     </div>
     <div class="span4 offset1">
         <br />
-        <button class="btn btn-primary" id="save_btn"> Αποθήκευση & Κρυπτογράφηση </button>
+        <!-- <button class="btn btn-primary" id="save_btn"> Αποθήκευση & Κρυπτογράφηση </button> -->
+        <button class="btn btn-primary disabled" id="prev_btn"><i class="icon-chevron-left icon-white"></i> Previous </button>
+        <button class="btn btn-primary" id="next_btn"> Next <i class="icon-chevron-right icon-white"></i></button>
         <br /><br />
-        <button class="btn btn-danger"> Καθαρισμός Φόρμας </button>
+        <!-- <button class="btn btn-danger"> Καθαρισμός Φόρμας </button> -->
     </div>
 </div>
 

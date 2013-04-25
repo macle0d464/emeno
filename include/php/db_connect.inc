@@ -12,4 +12,8 @@ if (!$dbselected) {
 
 mysql_query("set names 'utf8';");
 
+function execute_query($sql) {
+    return mysql_query($sql);
+}
+
 ?>
