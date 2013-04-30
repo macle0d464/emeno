@@ -1,3 +1,17 @@
+<?php
+
+require_once('./include/php/basic_defines.inc');
+require_once('./include/php/db_connect.inc');
+
+$emenoid = $_GET['emenoid'];
+
+if ($emenoid != -1) {
+    // Get sensitive data from DB
+    
+}
+
+?>
+
 <form class="form-horizontal" id="sensitive_data_frm">
 
   <div class="control-group">
@@ -67,4 +81,44 @@
     </div>
   </div>
 -->
+
+<?php
+
+if ($emenoid == -1) {
+
+?>
+
+  <div class="control-group">
+    <div class="controls">
+      <button class="btn btn-danger" id="new_entry_button"> <i class="icon-edit icon-white"></i> Δημιουργία νέας εγγραφής</button>
+    </div>
+  </div>
+
+<script type="text/javascript" charset="utf-8">
+	$("#new_entry_button").click(function() {
+	    response = confirm(" ΠΡΟΣΟΧΗ!\n Ελέγξτε προσεκτικά τα στοιχεία που έχετε εισάγει \n επειδή ύστερα από αυτό το βήμα όλα τα στοιχεία \n θα κρυπτογραφηθούν.");
+        if (response) {
+            sensitiveFormData = $("#sensitive_data_frm").serialize();
+            $.ajax({
+                type: "POST",
+                url: "save_sensitive_data.php",
+                async: false,
+                data: "intervid=" + <?php echo $_SESSION['intervid']; ?> + "&" + sensitiveFormData,
+                success: function(msg) {
+                            $("#progress").progressbar({ value: 10 });
+                         }
+            });
+	    }
+	    return false;
+	});
+</script>
+
+<?php
+    
+}
+
+?>
+
+
 </form>
+

@@ -3,6 +3,9 @@
 require_once('./include/php/basic_defines.inc');
 require_once('./include/php/db_connect.inc');
 
+session_start();
+$_SESSION['intervid'] = 250;
+
 ?>
 
 <!DOCTYPE html>
@@ -28,41 +31,54 @@ require_once('./include/php/db_connect.inc');
                 -moz-box-shadow: 2px 2px 3px #888;
                 -box-shadow: 2px 2px 3px #888;
             }
+            .header-top {
+                z-index: 2;
+                position: fixed;
+                width: 101%;    
+                -webkit-box-shadow: 0px 0px 10px #888;
+                -moz-box-shadow: 0px 0px 10px #888;
+                -box-shadow: 0 x 0px 10px #888;
+            }
+            .main-tabs {
+                z-index: 1;
+                position: relative;
+                top: 155px;
+            }
         </style>
     </head>
     
 <body>
-
+<!-- 
 <div class="row">
   <div class="span8 offset1">
       
   </div>
-</div>  
+</div>   -->
 
-<div class="row well well-small">
+<div class="row well well-small header-top center_shadow">
     <div class="span3 offset2">
         <img src="images/emeno_logo.png" alt="Emeno Logo" style="width: 60%" class="center_shadow" />
     </div>
     <div class="span4">
         <h3 style="text-align: center"> Online Ερωτηματολόγιο </h3>
-        <h4 style="text-align: center">Ποσοστό συμπλήρωσης: 40%</h4>
+        <h4 style="text-align: center">Ποσοστό συμπλήρωσης: 0%</h4>
         <div class="add_shadow_tabs ui-corner-all">
             <div class="progress progress-success progress-striped active">
-                <div class="bar" style="width: 40%;"></div>
+                <div class="bar" style="width: 0%;"></div>
             </div>     
         </div>
     </div>
     <div class="span4 offset1">
         <br />
         <!-- <button class="btn btn-primary" id="save_btn"> Αποθήκευση & Κρυπτογράφηση </button> -->
-        <button class="btn btn-primary disabled" id="prev_btn"><i class="icon-chevron-left icon-white"></i> Previous </button>
-        <button class="btn btn-primary" id="next_btn"> Next <i class="icon-chevron-right icon-white"></i></button>
+        <button class="btn btn-primary disabled" id="prev_btn"><i class="icon-chevron-left icon-white"></i> Προηγούμενο </button>
+        <button class="btn btn-primary" id="next_btn"> Επόμενο <i class="icon-chevron-right icon-white"></i></button>
         <br /><br />
         <!-- <button class="btn btn-danger"> Καθαρισμός Φόρμας </button> -->
     </div>
 </div>
 
-<div class="container">
+<div class="container main-tabs">
     <div id="survey_tabs" class="add_shadow_tabs">
         <ul>
             <li> <a href="#sensitive_data">Αρχή</a> </li>
@@ -149,14 +165,23 @@ require_once('./include/php/db_connect.inc');
     
 <script type="text/javascript" charset="utf-8">
     // Load Forms
-    
-    $('#sensitive_data').load('sensitive_data.php', function() {});
+<?php
+
+if (!isset($_GET['emenoid'])) {
+    $emenoid = -1;
+} else {
+    $emenoid = $_GET['emenoid'];    
+}
+
+?>
+    $('#sensitive_data').load('sensitive_data.php?emenoid=<? echo $emenoid ?>', function() {});
+/*
     $('#basic_data').load('basic_data.php', function() {});
     $('#health_status').load('health_status.php', function() {});
     $('#health_system').load('draw_questions.php?c=3', function() {});
     $('#health_factors').load('draw_questions.php?c=4', function() {});
     $('#contagious_diseases').load('draw_questions.php?c=5', function() {});
-    
+*/    
     // End Load Forms
 
 	$(document).ready(function() {

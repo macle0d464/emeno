@@ -1,19 +1,18 @@
 <?php 
 
-$dbconnection = mysql_connect($dbserver, $dbusername, $dbpassword);
-if (!$dbconnection) {
-	die( "<h3>Unable to connect to the database server at this time.</h3>" );
+$mysqli = new mysqli($dbserver, $dbusername, $dbpassword, $database);
+
+/* check connection */
+if ($mysqli->connect_errno) {
+    printf( "<h3>Unable to connect to the database server at this time.</h3>" );
+    printf( "<h3>Connect failed: %s\n </h3>", $mysqli->connect_error);
+    exit();
 }
 
-$dbselected = mysql_select_db($database, $dbconnection);
-if (!$dbselected) {
-   	die ('Can\'t use ' . $database . ' : ' . mysql_error());
-}
-
-mysql_query("set names 'utf8';");
+$result = $mysqli->query("SET NAMES 'utf8';");
 
 function execute_query($sql) {
-    return mysql_query($sql);
+    return $mysqli->query($sql);
 }
 
 ?>
