@@ -34,10 +34,21 @@ $_SESSION['intervid'] = 250;
             .header-top {
                 z-index: 2;
                 position: fixed;
-                width: 101%;    
+                width: 101%;
+                height: 130px;    
                 -webkit-box-shadow: 0px 0px 10px #888;
                 -moz-box-shadow: 0px 0px 10px #888;
                 -box-shadow: 0 x 0px 10px #888;
+                opacity: 0.9;
+                filter: alpha(opacity=90); /* For stupid IE */
+            }
+            .header-content {
+                z-index: 3;
+                width: 101%;
+                position: fixed;
+                top: 10px;
+                margin-left: auto;
+                margin-right: auto;
             }
             .main-tabs {
                 z-index: 1;
@@ -55,7 +66,9 @@ $_SESSION['intervid'] = 250;
   </div>
 </div>   -->
 
-<div class="row well well-small header-top center_shadow">
+<div class="row well well-small header-top">
+</div>
+<div class="row header-content">    
     <div class="span3 offset2">
         <img src="images/emeno_logo.png" alt="Emeno Logo" style="width: 60%" class="center_shadow" />
     </div>
@@ -175,13 +188,11 @@ if (!isset($_GET['emenoid'])) {
 
 ?>
     $('#sensitive_data').load('sensitive_data.php?emenoid=<? echo $emenoid ?>', function() {});
-/*
     $('#basic_data').load('basic_data.php', function() {});
     $('#health_status').load('health_status.php', function() {});
     $('#health_system').load('draw_questions.php?c=3', function() {});
     $('#health_factors').load('draw_questions.php?c=4', function() {});
     $('#contagious_diseases').load('draw_questions.php?c=5', function() {});
-*/    
     // End Load Forms
 
 	$(document).ready(function() {

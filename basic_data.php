@@ -3,16 +3,16 @@
 require_once('./include/php/basic_defines.inc');
 require_once('./include/php/db_connect.inc');
 
-$questions_result = mysql_query("SELECT * FROM questions WHERE category=1 AND headertype!=1");
+$questions_result = $mysqli->query("SELECT * FROM questions WHERE category=1 AND headertype!=1");
 $questions = array();
-for ($i=0; $i<mysql_num_rows($questions_result); $i++) {
-    $questions[] = mysql_fetch_assoc($questions_result);
+for ($i=0; $i<$questions_result->num_rows; $i++) {
+    $questions[] = $questions_result->fetch_assoc();
 }
 
-$datatypes_result = mysql_query("SELECT * FROM datatypes");
+$datatypes_result = $mysqli->query("SELECT * FROM datatypes");
 $datatypes = array();
-for ($i=0; $i<mysql_num_rows($datatypes_result); $i++) {
-    $row = mysql_fetch_assoc($datatypes_result);
+for ($i=0; $i<$datatypes_result->num_rows; $i++) {
+    $row = $datatypes_result->fetch_assoc();
     $datatypes[$row['typeid']][] = array('val' => $row['val'], 'description' => $row['description'], 'has_text' => $row['has_text']);
 //    $datatypes[$row['typeid']]['val'] = $row['val'];
 //    $datatypes[$row['typeid']]['description'] = $row['description']; 
@@ -87,8 +87,8 @@ for ($i=0; $i<count($questions); $i++){
       <select>
           <option value=""> - Επιλέξτε - </option>
 <?
-        $countries_result = mysql_query("SELECT isocode, country_gr FROM countries");
-        while ($country = mysql_fetch_assoc($countries_result)){
+        $countries_result = $mysqli->query("SELECT isocode, country_gr FROM countries");
+        while ($country = $countries_result->fetch_assoc()){
 ?>
           <option value="<? echo $country['isocode']; ?>"><? echo $country['country_gr']; ?></option>           
 <?                     
