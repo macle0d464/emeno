@@ -32,8 +32,8 @@ if ($emenoid != -1) {
     <label class="control-label" for="street">Διεύθυνση</label>
     <div class="controls">
       <input type="text" id="street" name="street" placeholder="Οδός"> 
-      <input type="text" id="street" name="street" placeholder="Αριθμός"> 
-      <input type="text" id="street" name="street" placeholder="Όροφος">
+      <input type="text" id="street" name="street" class="input-mini" placeholder="Αριθμός"> 
+      <input type="text" id="street" name="street" class="input-mini" placeholder="Όροφος">
     </div>
   </div>
 
@@ -54,7 +54,7 @@ if ($emenoid != -1) {
   <div class="control-group">
     <label class="control-label" for="zipcode">Ταχυδρομικός κώδικας</label>
     <div class="controls">
-      <input type="text" id="zipcode" name="zipcode" placeholder="">
+      <input type="text" id="zipcode" name="zipcode" class="input-mini" placeholder="">
     </div>
   </div>
 

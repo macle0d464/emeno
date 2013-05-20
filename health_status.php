@@ -9,7 +9,7 @@ for ($i=0; $i<$questions_result->num_rows; $i++) {
     $questions[] = $questions_result->fetch_assoc();
 }
 
-$datatypes_result = mysql_query("SELECT * FROM datatypes");
+$datatypes_result = $mysqli->query("SELECT * FROM datatypes");
 $datatypes = array();
 for ($i=0; $i<$datatypes_result->num_rows; $i++) {
     $row = $datatypes_result->fetch_assoc();
