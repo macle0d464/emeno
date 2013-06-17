@@ -4,7 +4,8 @@ require_once('./include/php/basic_defines.inc');
 require_once('./include/php/db_connect.inc');
 
 session_start();
-$_SESSION['intervid'] = 250;
+$_SESSION['intervid'] = 99;
+$_SESSION['new_entry'] = 1;
 
 ?>
 
@@ -15,11 +16,17 @@ $_SESSION['intervid'] = 250;
         <title>Ερωτηματολόγιο E.M.E.N.O.</title>
         <link rel="stylesheet" href="include/bootstrap/css/bootstrap.min.css" type="text/css" />
         <link rel="stylesheet" href="include/bootstrap/css/bootstrap-responsive.min.css" type="text/css" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="include/css/redmond/jquery-ui-1.8.23.css" type="text/css" />
         <style type="text/css" media="screen">
             body {
+                font-family: Calibri;
                 font-size: 8pt;
                 background-color: #DEEDF7;
+            }
+            label {
+                font-family: Calibri;
+                font-size: 11pt;
             }
             .center_shadow {
                 -webkit-box-shadow: 0px 0px 5px #888;
@@ -53,7 +60,7 @@ $_SESSION['intervid'] = 250;
             .main-tabs {
                 z-index: 1;
                 position: relative;
-                top: 155px;
+                top: 160px;
             }
         </style>
     </head>
@@ -84,8 +91,8 @@ $_SESSION['intervid'] = 250;
     <div class="span4 offset1">
         <br />
         <!-- <button class="btn btn-primary" id="save_btn"> Αποθήκευση & Κρυπτογράφηση </button> -->
-        <button class="btn btn-primary disabled" id="prev_btn"><i class="icon-chevron-left icon-white"></i> Προηγούμενο </button>
-        <button class="btn btn-primary" id="next_btn"> Επόμενο <i class="icon-chevron-right icon-white"></i></button>
+        <button class="btn btn-inverse disabled" id="prev_btn"><i class="icon-chevron-sign-left icon-white"></i> Προηγούμενο </button>
+        <button class="btn btn-inverse" id="next_btn"> Επόμενο <i class="icon-chevron-sign-right icon-white"></i></button>
         <br /><br />
         <!-- <button class="btn btn-danger"> Καθαρισμός Φόρμας </button> -->
     </div>
@@ -177,25 +184,24 @@ $_SESSION['intervid'] = 250;
 <script src="include/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     
 <script type="text/javascript" charset="utf-8">
-    // Load Forms
-<?php
+	$(document).ready(function() {
 
+        // Load Forms
+<?php
 if (!isset($_GET['emenoid'])) {
     $emenoid = -1;
 } else {
     $emenoid = $_GET['emenoid'];    
 }
-
 ?>
-    $('#sensitive_data').load('sensitive_data.php?emenoid=<? echo $emenoid ?>', function() {});
-    $('#basic_data').load('basic_data.php', function() {});
-    $('#health_status').load('health_status.php', function() {});
-    $('#health_system').load('draw_questions.php?c=3', function() {});
-    $('#health_factors').load('draw_questions.php?c=4', function() {});
-    $('#contagious_diseases').load('draw_questions.php?c=5', function() {});
-    // End Load Forms
+        $('#sensitive_data').load('sensitive_data.php?emenoid=<? echo $emenoid ?>', function() {});
+        $('#basic_data').load('basic_data.php', function() {});
+        $('#health_status').load('health_status.php', function() {});
+        $('#health_system').load('draw_questions.php?c=3', function() {});
+        $('#health_factors').load('draw_questions.php?c=4', function() {});
+        $('#contagious_diseases').load('draw_questions.php?c=5', function() {});
+        // End Load Forms
 
-	$(document).ready(function() {
 	    $("#survey_tabs").tabs();
 	    $("#save_btn").click(function() {
 	       $("#finalize_window").dialog({
@@ -213,6 +219,17 @@ if (!isset($_GET['emenoid'])) {
                 }
            }); 
 	    });
+
+<?php
+if ($_SESSION['new_entry'] == 1) {
+?>
+        $("#survey_tabs").tabs("option", "disabled", [ 1, 2, 3, 4, 5 ]);
+        $("#next_btn").addClass("disabled");
+<?php    
+}
+?>
+
+
 	})
 </script>
 <!-- End Scripts -->    

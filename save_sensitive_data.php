@@ -1,15 +1,17 @@
 <?php
 
+session_start();
+
 require_once('./include/php/basic_defines.inc');
 require_once('./include/php/db_connect.inc');
 
 $objEncManager = new DataEncryptor();
 
-$intervid = $_REQUEST['intervid'];
+$intervid = $_SESSION['intervid'];
 $emenoid = 0;
 
-$result = $mysqli->query("assign_new_emenoid( $intervid )");
-echo $mysqli->error();
+$result = $mysqli->query("CALL assign_new_emenoid( $intervid ); ");
+echo $mysqli->error;
 $row = $result->fetch_array();
 $emenoid = $row[0];
 $result->close();
@@ -17,20 +19,24 @@ $mysqli->next_result();
 
 
 
-$private_data_sql = "START TRANSACTION; ";
+$private_data_sql = "START TRANSACTION; \n";
 foreach ($_REQUEST as $name => $value) {
-        if ($name != "intervid") {
+        if (($name != "intervid") & ($name != "PHPSESSID")) {
             $encvalue = $objEncManager->mcryptEncryptString( $value );
-            $private_data_sql .= "INSERT INTO `private` VALUES ('', '$emenoid', '$name', '$encvalue'); ";
+            $private_data_sql .= "INSERT INTO `private` VALUES ('', '$emenoid', '$name', '$encvalue'); \n";
         }
 }
-$private_data_sql .= "COMMIT; ";
-$result = $mysqli->query( $private_data_sql );
+$private_data_sql .= "COMMIT; \n";
+echo $private_data_sql;
+$result = $mysqli->multi_query( $private_data_sql );
+
+if ($mysqli->error == false) {
+    echo '{"success": true; "emenoid": '.$emenoid.'}';
+}
 
 $result->close();
 $mysqli->next_result();
 
-echo $mysqli->error();
 
 $mysqli->close();
 

@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once('./include/php/basic_defines.inc');
 require_once('./include/php/db_connect.inc');
 
@@ -90,7 +92,7 @@ if ($emenoid == -1) {
 
   <div class="control-group">
     <div class="controls">
-      <button class="btn btn-danger" id="new_entry_button"> <i class="icon-edit icon-white"></i> Δημιουργία νέας εγγραφής</button>
+      <button class="btn btn-primary" id="new_entry_button"> <i class="icon-file"></i> Δημιουργία νέας εγγραφής</button>
     </div>
   </div>
 
@@ -103,9 +105,13 @@ if ($emenoid == -1) {
                 type: "POST",
                 url: "save_sensitive_data.php",
                 async: false,
-                data: "intervid=" + <?php echo $_SESSION['intervid']; ?> + "&" + sensitiveFormData,
+                data: sensitiveFormData,
                 success: function(msg) {
-                            $("#progress").progressbar({ value: 10 });
+                            var data = $.parseJSON(msg);
+                            if (data.success) {
+                                $(".bar").css("width", '5%');
+                                alert("New EmenoID is: " + data.emenoid);
+                            }
                          }
             });
 	    }
